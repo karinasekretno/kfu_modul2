@@ -8,7 +8,7 @@
 
     <h1><a href="{% url 'main' %}">Time Tracker</a></h1>
     <nav>
-        <a href="{% url 'main' %}">Главная</a>
+        <a href="{% url 'main' %}">Слоты</a>
         {% if  user.is_anonymous %}
             <div style="text-align: right">
                 <a href="{% url 'registration' %}">Регистрация</a>
@@ -16,6 +16,8 @@
             </div>
         {% else %}
             <a href="{% url 'time_slots_add' %}">Создать тайм-слот</a>
+            <a href="{% url 'tags' %}">Теги</a>
+            <a href="{% url 'holidays' %}">Выходные</a>
             <div style="text-align: right">
                 {% if not user.is_anonymos %}
                     Вы вторизованы как <b>{{ user.username }}</b>
