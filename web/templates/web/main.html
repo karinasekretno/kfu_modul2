@@ -1,13 +1,18 @@
 {% extends 'web/base.html' %}
 {% block content %}
 
-    <h2>Hello world</h2>
-    {% if not user.is_anonymos %}
-    <p>Вы вторизованы как <b>{{ user.username }}</b></p>
-    {% endif %}
+    <ul>
+        {% for timeslot in timeslots %}
+            <li>
+                <b>{{ timeslot.title }}</b>
+                {{ timeslot.start_date }} - {{ timeslot.end_date }}
+                {% if timeslot.is_realtime %} <small>{realtime}</small> {% endif %}
+                <a href="{% url 'time_slots_edit' timeslot.id %}">Изменить</a>
+            </li>
+        {% endfor %}
+    </ul>
 
-    <a href="http://ya.ru">Яндекс</a>
+
+
     {{ year }}
-
-
 {% endblock %}
