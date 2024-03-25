@@ -1,22 +1,33 @@
 {% extends 'web/base.html' %}
 {% block content %}
 
-    <b>Добавить таймслот</b>
-    <form action="{% url 'time_slots_add' %}" method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button>Сохранить</button>
-        <button value="realtime">Начать</button>
-    </form>
+    {% if current_timeslot %}
+        <b>Текущий слот</b> {{ current_timeslot.title }}
+        <small>Начат в {{ current_timeslot.start_date }}</small>
+        <form action="{% url 'time_slots_stop'  current_timeslot.id%}" method="post">
+            {% csrf_token %}
+            <button>Закончить</button>
+        </form>
+    {% else %}
+        <b>Добавить таймслот</b>
+        <form action="{% url 'time_slots_add' %}" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button>Сохранить</button>
+        </form>
+    {% endif %}
 
     <ul>
         {% for timeslot in timeslots %}
             <li>
                 <b>{{ timeslot.title }}</b>
                 {% if timeslot.is_realtime %} <small>{realtime}</small> {% endif %}
-                <a href="{% url 'time_slots_edit' timeslot.id %}">Изменить</a>
                 <br>
-                <small>{{ timeslot.start_date }} - {{ timeslot.end_date }}</small>
+                <small>
+                    {{ timeslot.start_date }} - {% if timeslot.end_date %} {{ timeslot.end_date }} {% endif %}
+                    <a href="{% url 'time_slots_edit' timeslot.id %}">Изменить</a>
+                    <a href="{% url 'time_slots_delete' timeslot.id %}">Удалить</a>
+                </small>
 
 
             </li>
